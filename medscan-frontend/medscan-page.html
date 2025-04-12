@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "icon" type = "image" href = "medscan-icon.ico">
+    <title>MedScan - AI Healthcare Solutions</title>
+    <link rel="stylesheet" href="medscan-styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Med<span style="color: #bfdbfe;">Scan</span></h2>
+            <p>AI-Powered Healthcare</p>
+        </div>
+        <div class="nav-buttons">
+            <a href="#" class="nav-button active" id="homeBtn">
+                <i class="fas fa-home"></i> HOME
+            </a>
+            <a href="#" class="nav-button" id="loginBtn">
+                <i class="fas fa-sign-in-alt"></i> LOGIN
+            </a>
+            <a href="#" class="nav-button" id="helpBtn">
+                <i class="fas fa-question-circle"></i> HELP
+            </a>
+            <a href="#" class="nav-button" id="aboutBtn">
+                <i class="fas fa-info-circle"></i> ABOUT US
+            </a>
+            <a href="#" class="nav-button" id="contactBtn">
+                <i class="fas fa-envelope"></i> CONTACT
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-brain logo-icon"></i>Med<span>Scan</span>
+            </div>
+            <div class="user-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i> Dark Mode
+                </button>
+                <button class="btn btn-outline-primary btn-sm">Sign Up</button>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1>Welcome to MedScan AI Assistant</h1>
+            <p>Your intelligent healthcare companion powered by advanced artificial intelligence. Get instant medical information and preliminary assessments.</p>
+            <button class="btn btn-primary">Get Started</button>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features">
+            <div class="feature-card">
+                <i class="fas fa-robot feature-icon"></i>
+                <h3>AI-Powered Analysis</h3>
+                <p>Advanced machine learning algorithms for accurate medical assessments.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-heartbeat feature-icon"></i>
+                <h3>Health Monitoring</h3>
+                <p>Real-time tracking of vital signs and health indicators.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-user-md feature-icon"></i>
+                <h3>Expert Support</h3>
+                <p>Connect with healthcare professionals for detailed consultations.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Toggle Button -->
+    <div class="chatbot-toggle" id="chatbotToggle">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <!-- Chatbot Container -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            <div class="chatbot-title">
+                <i class="fas fa-robot"></i>
+                <span>MedScan AI Assistant</span>
+            </div>
+            <i class="fas fa-times" id="chatbotClose" style="cursor: pointer;"></i>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            <div class="message">
+                <div class="bot-message">
+                    Hello! I'm your MedScan AI Assistant. How can I help you today?
+                </div>
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="userInput" placeholder="Type your message..." />
+            <button id="sendMessage">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dark mode toggle functionality
+            const themeToggle = document.getElementById('themeToggle');
+            const htmlElement = document.documentElement;
+            const moonIcon = '<i class="fas fa-moon"></i> Dark Mode';
+            const sunIcon = '<i class="fas fa-sun"></i> Light Mode';
+
+            // Check for saved theme preference
+            if (localStorage.getItem('theme') === 'dark') {
+                htmlElement.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = sunIcon;
+            }
+
+            themeToggle.addEventListener('click', function() {
+                if (htmlElement.getAttribute('data-theme') === 'dark') {
+                    htmlElement.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                    themeToggle.innerHTML = moonIcon;
+                } else {
+                    htmlElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    themeToggle.innerHTML = sunIcon;
+                }
+            });
+            
+            // Navigation Button Logic
+            const navButtons = document.querySelectorAll('.nav-button');
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                });
+            });
+
+            // Chatbot functionality
+            const chatbotToggle = document.getElementById('chatbotToggle');
+            const chatbotContainer = document.getElementById('chatbotContainer');
+            const chatbotClose = document.getElementById('chatbotClose');
+            const chatbotMessages = document.getElementById('chatbotMessages');
+            const userInput = document.getElementById('userInput');
+            const sendMessage = document.getElementById('sendMessage');
+
+            chatbotToggle.addEventListener('click', () => {
+                chatbotContainer.classList.add('visible');
+                chatbotToggle.classList.add('hidden');
+                userInput.focus();
+            });
+
+            chatbotClose.addEventListener('click', () => {
+                chatbotContainer.classList.remove('visible');
+                setTimeout(() => {
+                    chatbotToggle.classList.remove('hidden');
+                }, 300);
+            });
+
+            function showTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'message';
+                typingDiv.innerHTML = `
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                `;
+                chatbotMessages.appendChild(typingDiv);
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                return typingDiv;
+            }
+
+            function removeTypingIndicator(typingDiv) {
+                typingDiv.remove();
+            }
+
+            function addMessage(message, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+                messageDiv.innerHTML = `<div class="${isUser ? 'user-message' : 'bot-message'}">${message}</div>`;
+                chatbotMessages.appendChild(messageDiv);
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            }
+
+            function getBotResponse(userMessage) {
+                const responses = {
+                    'hello': 'Hello! How can I assist you with your health concerns today?',
+                    'hi': 'Hi there! How can I help you with your medical questions?',
+                    'help': 'I can help you with preliminary medical assessments, health information, and connecting you with healthcare professionals. What specific assistance do you need?',
+                    'symptoms': 'I can help you analyze your symptoms. Please describe what you\'re experiencing in detail.',
+                    'emergency': 'If you\'re experiencing a medical emergency, please call emergency services immediately (911 in the US).',
+                    'default': 'I\'m here to help with your medical questions. Could you please provide more details about your concern?'
+                };
+
+                const lowercaseMessage = userMessage.toLowerCase();
+                return responses[lowercaseMessage] || responses['default'];
+            }
+
+            sendMessage.addEventListener('click', () => {
+                const message = userInput.value.trim();
+                if (message) {
+                    addMessage(message, true);
+                    userInput.value = '';
+                    
+                    // Show typing indicator
+                    const typingDiv = showTypingIndicator();
+                    
+                    // Simulate bot thinking
+                    setTimeout(() => {
+                        removeTypingIndicator(typingDiv);
+                        const botResponse = getBotResponse(message);
+                        addMessage(botResponse);
+                    }, 1500 + Math.random() * 1000);
+                }
+            });
+
+            userInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage.click();
+                }
+            });
+
+            // Auto-focus on input when chatbot opens
+            document.addEventListener('click', function(e) {
+                if (e.target === chatbotToggle || e.target.closest('#chatbotContainer')) {
+                    setTimeout(() => {
+                        userInput.focus();
+                    }, 100);
+                }
+            });
+        });
+
+        document.getElementById('sendMessage').addEventListener('click', async () => {
+            const userInput = document.getElementById('userInput').value;
+
+            if (!userInput) {
+                alert('Please enter your symptoms.');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/api/chatbot/diagnosis', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ symptoms: userInput.split(',') }), // Split symptoms by comma
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    const chatbotMessages = document.getElementById('chatbotMessages');
+                    chatbotMessages.innerHTML += `
+                        <div class="message">
+                            <div class="bot-message">
+                                Diagnosis: ${data.conditions.map((c) => c.name).join(', ')}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>
