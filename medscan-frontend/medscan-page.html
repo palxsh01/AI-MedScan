@@ -95,12 +95,18 @@
         <div class="chatbot-messages" id="chatbotMessages">
             <div class="message">
                 <div class="bot-message">
-                    Hello! I'm your MedScan AI Assistant. How can I help you today?
+                    Hello! I'm your MedScan AI Assistant. I can help with:
+                    <ul>
+                        <li>General health information</li>
+                        <li>Symptom explanations</li>
+                        <li>Medication details</li>
+                    </ul>
+                    <strong>Note:</strong> I don't provide diagnoses. For medical emergencies, call emergency services.
                 </div>
             </div>
         </div>
         <div class="chatbot-input">
-            <input type="text" id="userInput" placeholder="Type your message..." />
+            <input type="text" id="userInput" placeholder="Type your health question..." />
             <button id="sendMessage">
                 <i class="fas fa-paper-plane"></i>
             </button>
@@ -190,35 +196,40 @@
                 chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
             }
 
-            function getBotResponse(userMessage) {
-                const responses = {
-                    'hello': 'Hello! How can I assist you with your health concerns today?',
-                    'hi': 'Hi there! How can I help you with your medical questions?',
-                    'help': 'I can help you with preliminary medical assessments, health information, and connecting you with healthcare professionals. What specific assistance do you need?',
-                    'symptoms': 'I can help you analyze your symptoms. Please describe what you\'re experiencing in detail.',
-                    'emergency': 'If you\'re experiencing a medical emergency, please call emergency services immediately (911 in the US).',
-                    'default': 'I\'m here to help with your medical questions. Could you please provide more details about your concern?'
-                };
+            async function getBotResponse(userMessage) {
+                try {
+                    const response = await fetch('http://localhost:5000/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ message: userMessage })
+                    });
 
-                const lowercaseMessage = userMessage.toLowerCase();
-                return responses[lowercaseMessage] || responses['default'];
+                    const data = await response.json();
+                    return data.response || "I'm sorry, I couldn't process your request. Please try again.";
+                } catch (error) {
+                    console.error('Error:', error);
+                    return "I'm having trouble connecting to the server. Please try again later.";
+                }
             }
 
-            sendMessage.addEventListener('click', () => {
+            sendMessage.addEventListener('click', async () => {
                 const message = userInput.value.trim();
                 if (message) {
                     addMessage(message, true);
                     userInput.value = '';
-                    
-                    // Show typing indicator
+
                     const typingDiv = showTypingIndicator();
-                    
-                    // Simulate bot thinking
-                    setTimeout(() => {
+
+                    try {
+                        const botResponse = await getBotResponse(message);
                         removeTypingIndicator(typingDiv);
-                        const botResponse = getBotResponse(message);
                         addMessage(botResponse);
-                    }, 1500 + Math.random() * 1000);
+                    } catch (error) {
+                        removeTypingIndicator(typingDiv);
+                        addMessage("Sorry, I encountered an error. Please try again.");
+                    }
                 }
             });
 
@@ -227,52 +238,6 @@
                     sendMessage.click();
                 }
             });
-
-            // Auto-focus on input when chatbot opens
-            document.addEventListener('click', function(e) {
-                if (e.target === chatbotToggle || e.target.closest('#chatbotContainer')) {
-                    setTimeout(() => {
-                        userInput.focus();
-                    }, 100);
-                }
-            });
-        });
-
-        document.getElementById('sendMessage').addEventListener('click', async () => {
-            const userInput = document.getElementById('userInput').value;
-
-            if (!userInput) {
-                alert('Please enter your symptoms.');
-                return;
-            }
-
-            try {
-                const response = await fetch('http://localhost:3000/api/chatbot/diagnosis', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ symptoms: userInput.split(',') }), // Split symptoms by comma
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    const chatbotMessages = document.getElementById('chatbotMessages');
-                    chatbotMessages.innerHTML += `
-                        <div class="message">
-                            <div class="bot-message">
-                                Diagnosis: ${data.conditions.map((c) => c.name).join(', ')}
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    alert(data.message);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again.');
-            }
         });
     </script>
 </body>
