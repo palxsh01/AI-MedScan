@@ -4,25 +4,12 @@ const logger = createLogger({
     level: 'info',
     format: format.combine(
         format.timestamp(),
-        format.printf(({ timestamp, level, message }) => {
-            return `${timestamp} [${level}]: ${message}`;
-        })
+        format.printf(({ timestamp, level, message }) => `${timestamp} [${level}]: ${message}`)
     ),
     transports: [
         new transports.Console(),
-        new transports.File({ filename: 'error.log', level: 'error' }),
-        new transports.File({ filename: 'combined.log' })
+        new transports.File({ filename: 'logs/app.log' }),
     ],
 });
 
-export const logInfo = (message: string) => {
-    logger.info(message);
-};
-
-export const logWarn = (message: string) => {
-    logger.warn(message);
-};
-
-export const logError = (message: string) => {
-    logger.error(message);
-};
+export { logger };
