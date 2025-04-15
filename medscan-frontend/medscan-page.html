@@ -41,6 +41,7 @@
     <div class="main-content">
         <div class="header">
             <div class="logo">
+                
                 <i class="fas fa-brain logo-icon"></i>Med<span>Scan</span>
             </div>
             <div class="user-actions">
@@ -217,6 +218,14 @@
             const userInput = document.getElementById('userInput');
             const sendMessage = document.getElementById('sendMessage');
 
+            // Function to close chatbot
+            function closeChatbot() {
+                chatbotContainer.classList.remove('visible');
+                setTimeout(() => {
+                    chatbotToggle.classList.remove('hidden');
+                }, 300);
+            }
+
             // Chatbot toggle functionality
             chatbotToggle.addEventListener('click', () => {
                 chatbotContainer.classList.add('visible');
@@ -224,12 +233,7 @@
                 userInput.focus();
             });
 
-            chatbotClose.addEventListener('click', () => {
-                chatbotContainer.classList.remove('visible');
-                setTimeout(() => {
-                    chatbotToggle.classList.remove('hidden');
-                }, 300);
-            });
+            chatbotClose.addEventListener('click', closeChatbot);
 
             // Basic responses database
             const chatbotResponses = {
@@ -364,10 +368,12 @@
                         const response = findBestResponse(message);
                         addMessage(response);
 
-                        // If response mentions tools, show them
+                        // If response mentions tools, show them and close chatbot
                         if (response.includes('Symptom Checker')) {
+                            closeChatbot();
                             setTimeout(() => symptomModal.show(), 1000);
                         } else if (response.includes('Medication Lookup')) {
+                            closeChatbot();
                             setTimeout(() => medicationModal.show(), 1000);
                         }
                     }, 1000);
@@ -420,13 +426,27 @@
                 const analyzeBtn = document.getElementById('analyzeSymptoms');
                 const resultDiv = document.getElementById('symptomResult');
                 
+                // Split symptoms and validate count
+                const userSymptoms = symptoms.split(',').map(s => s.trim().toLowerCase());
+                if (userSymptoms.length < 4) {
+                    resultDiv.style.display = 'block';
+                    resultDiv.innerHTML = `
+                        <div class="alert alert-warning">
+                            <h5>Insufficient Symptoms</h5>
+                            <p>Please provide at least 4 symptoms for a more accurate analysis.</p>
+                            <p>Current number of symptoms: ${userSymptoms.length}</p>
+                            <p>Example format: headache, fever, nausea, fatigue</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
                 analyzeBtn.disabled = true;
                 analyzeBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Analyzing...';
                 resultDiv.style.display = 'block';
                 resultDiv.innerHTML = '<div class="alert alert-info">Analyzing symptoms...</div>';
                 
                 try {
-                    const userSymptoms = symptoms.split(',').map(s => s.trim().toLowerCase());
                     const matchingDiseases = window.symptomDatabase
                         .map(entry => {
                             const matchCount = entry.symptoms.filter(symptom => 
@@ -439,24 +459,19 @@
                         })
                         .filter(entry => entry.matchCount > 0)
                         .sort((a, b) => b.matchCount - a.matchCount)
-                        .slice(0, 3);
+                        .slice(0, 1);
 
                     if (matchingDiseases.length > 0) {
-                        const diseaseList = matchingDiseases
-                            .map((entry) => `
-                                <div class="disease-entry mb-3">
-                                    <h6 class="mb-2">${entry.disease}</h6>
-                                    <p class="mb-1"><strong>Matching Symptoms:</strong> ${entry.matchCount}</p>
-                                    <p class="mb-1"><strong>Description:</strong> ${entry.description}</p>
-                                    <p class="mb-1"><strong>Recommended Actions:</strong> ${entry.recommendations}</p>
-                                </div>
-                            `)
-                            .join('');
-                        
+                        const diseaseEntry = matchingDiseases[0];
                         resultDiv.innerHTML = `
                             <div class="alert alert-info">
                                 <h5>Analysis Results</h5>
-                                <div class="disease-list">${diseaseList}</div>
+                                <div class="disease-entry mb-3">
+                                    <h6 class="mb-2">${diseaseEntry.disease}</h6>
+                                    <p class="mb-1"><strong>Matching Symptoms:</strong> ${diseaseEntry.matchCount}</p>
+                                    <p class="mb-1"><strong>Description:</strong> ${diseaseEntry.description}</p>
+                                    <p class="mb-1"><strong>Recommended Action:</strong> Please consult a healthcare professional for proper diagnosis and treatment.</p>
+                                </div>
                                 <hr>
                                 <div class="disclaimer">
                                     <p class="text-danger"><strong>Important Disclaimer:</strong></p>
