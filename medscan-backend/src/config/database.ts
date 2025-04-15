@@ -5,9 +5,7 @@ dotenv.config();
 
 const connectDatabase = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URI as string, {
-            // No need for useNewUrlParser or useUnifiedTopology in the latest driver
-        });
+        await mongoose.connect(process.env.MONGO_URI as string); // No options needed for the latest driver
         console.log('Database connection has been established successfully.');
     } catch (error) {
         console.error('Unable to connect to the database:', error);

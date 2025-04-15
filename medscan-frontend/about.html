@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedScan - About</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #0a1930;
+            margin: 0;
+            color: #ffffff;
+        }
+        .navbar {
+            background: #0d2147;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+        }
+        .navbar-brand {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .navbar-brand:hover {
+            color: #ffffff;
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+        .container {
+            padding: 40px 20px;
+            max-width: 1200px;
+        }
+        h1 {
+            color: #ffffff;
+            text-align: center;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 20px rgba(255,255,255,0.3);
+        }
+        .about-content {
+            background: #0d2147;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+            margin-top: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .about-content p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+        }
+        .feature-box {
+            background: #132c5f;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            border-left: 5px solid #ffffff;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .feature-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255,255,255,0.1);
+            background: #183677;
+        }
+        .feature-icon {
+            color: #ffffff;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+        }
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 40px 0;
+            background: #132c5f;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+        .stat-item:hover {
+            transform: scale(1.05);
+        }
+        .stat-number {
+            font-size: 3rem;
+            color: #ffffff;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        .stat-label {
+            color: #e6e6e6;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#"><i class="fas fa-heartbeat me-2"></i>MedScan</a>
+    </nav>
+    <div class="container">
+        <h1><i class="fas fa-hospital-user me-3"></i>About MedScan</h1>
+        <div class="about-content">
+            <p class="lead">MedScan is an innovative AI-powered healthcare platform designed to revolutionize the way people access and understand medical information. Our cutting-edge technology assists users in assessing their symptoms and provides personalized recommendations based on comprehensive medical knowledge.</p>
+            
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">1M+</div>
+                    <div class="stat-label">Users Helped</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">99%</div>
+                    <div class="stat-label">Accuracy Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support</div>
+                </div>
+            </div>
+
+            <div class="feature-box">
+                <i class="fas fa-brain feature-icon"></i>
+                <h3>Advanced AI Technology</h3>
+                <p>MedScan combines state-of-the-art artificial intelligence with extensive medical databases to provide accurate and reliable health insights.</p>
+            </div>
+
+            <div class="feature-box">
+                <i class="fas fa-user-md feature-icon"></i>
+                <h3>Expert Medical Knowledge</h3>
+                <p>Our platform is built on the foundation of expert medical knowledge, ensuring that users receive trustworthy and professional healthcare guidance.</p>
+            </div>
+
+            <div class="feature-box">
+                <i class="fas fa-shield-alt feature-icon"></i>
+                <h3>Privacy & Security</h3>
+                <p>We prioritize your privacy and maintain the highest standards of data security, ensuring your medical information remains confidential and protected.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

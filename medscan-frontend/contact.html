@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedScan - Contact</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #1a237e;
+            --secondary-color: #283593;
+            --accent-color: #3949ab;
+            --text-light: #ffffff;
+            --text-dark: #1a237e;
+            --background-light: #ffffff;
+            --background-dark: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--background-light);
+            margin: 0;
+            color: var(--text-dark);
+        }
+
+        .navbar {
+            background: var(--primary-color);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .navbar-brand {
+            color: var(--text-light);
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .navbar-brand:hover {
+            color: var(--background-light);
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            padding: 40px 20px;
+            max-width: 1200px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .contact-container {
+            background: var(--background-light);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        .contact-info {
+            padding: 20px;
+            border-radius: 10px;
+            background: var(--background-dark);
+        }
+
+        .contact-info p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-card {
+            background: var(--background-light);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid var(--primary-color);
+            transition: transform 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .contact-icon {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .contact-form {
+            margin-top: 30px;
+            background: var(--background-light);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid var(--primary-color);
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.2rem rgba(26, 35, 126, 0.25);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26, 35, 126, 0.4);
+        }
+
+        .social-links {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .social-links a {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin: 0 15px;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--secondary-color);
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#"><i class="fas fa-heartbeat me-2"></i>MedScan</a>
+    </nav>
+    <div class="container">
+        <h1><i class="fas fa-envelope me-3"></i>Contact Us</h1>
+        <div class="contact-container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="contact-card">
+                        <i class="fas fa-envelope contact-icon"></i>
+                        <h3>Email Us</h3>
+                        <p>support@medscan.com</p>
+                        <p>business@medscan.com</p>
+                    </div>
+                    <div class="contact-card">
+                        <i class="fas fa-phone-alt contact-icon"></i>
+                        <h3>Call Us</h3>
+                        <p>Support: +1 (800) 123-4567</p>
+                        <p>Emergency: +1 (800) 999-9999</p>
+                    </div>
+                    <div class="contact-card">
+                        <i class="fas fa-map-marker-alt contact-icon"></i>
+                        <h3>Visit Us</h3>
+                        <p>123 Health St, Suite 100<br>XYZ 10234</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="contact-form">
+                        <h3 class="mb-4">Send us a Message</h3>
+                        <form>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" placeholder="Your Name" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="email" class="form-control" placeholder="Your Email" required>
+                            </div>
+                            <div class="mb-3">
+                                <select class="form-control">
+                                    <option>General Inquiry</option>
+                                    <option>Technical Support</option>
+                                    <option>Billing Question</option>
+                                    <option>Partnership Opportunity</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control" rows="5" placeholder="Your Message" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

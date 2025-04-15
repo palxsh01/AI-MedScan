@@ -22,16 +22,16 @@
             <a href="#" class="nav-button active" id="homeBtn">
                 <i class="fas fa-home"></i> HOME
             </a>
-            <a href="#" class="nav-button" id="loginBtn">
+            <a href="login.html" class="nav-button" id="loginBtn">
                 <i class="fas fa-sign-in-alt"></i> LOGIN
             </a>
-            <a href="#" class="nav-button" id="helpBtn">
+            <a href="help.html" class="nav-button" id="helpBtn">
                 <i class="fas fa-question-circle"></i> HELP
             </a>
-            <a href="#" class="nav-button" id="aboutBtn">
+            <a href="about.html" class="nav-button" id="aboutBtn">
                 <i class="fas fa-info-circle"></i> ABOUT US
             </a>
-            <a href="#" class="nav-button" id="contactBtn">
+            <a href="contact.html" class="nav-button" id="contactBtn">
                 <i class="fas fa-envelope"></i> CONTACT
             </a>
         </div>
@@ -217,6 +217,7 @@
             const userInput = document.getElementById('userInput');
             const sendMessage = document.getElementById('sendMessage');
 
+            // Chatbot toggle functionality
             chatbotToggle.addEventListener('click', () => {
                 chatbotContainer.classList.add('visible');
                 chatbotToggle.classList.add('hidden');
@@ -229,6 +230,98 @@
                     chatbotToggle.classList.remove('hidden');
                 }, 300);
             });
+
+            // Basic responses database
+            const chatbotResponses = {
+                greetings: {
+                    patterns: ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening'],
+                    responses: [
+                        "Hello! How can I help you with your health questions today?",
+                        "Hi there! I'm here to provide basic health information. What would you like to know?",
+                        "Hello! I'm your MedScan assistant. How may I help you?"
+                    ]
+                },
+                goodbye: {
+                    patterns: ['bye', 'goodbye', 'see you', 'thanks bye', 'good night'],
+                    responses: [
+                        "Goodbye! Take care of your health!",
+                        "Have a great day! Remember to stay healthy!",
+                        "Goodbye! Don't hesitate to return if you have more questions!"
+                    ]
+                },
+                thanks: {
+                    patterns: ['thank you', 'thanks', 'appreciate it', 'helpful'],
+                    responses: [
+                        "You're welcome! Your health is our priority.",
+                        "Glad I could help! Remember, this is just general information.",
+                        "Happy to help! Remember to consult healthcare professionals for medical advice."
+                    ]
+                },
+                emergency: {
+                    patterns: ['emergency', 'severe pain', 'heart attack', 'stroke', 'cant breathe', "can't breathe", 'unconscious'],
+                    responses: [
+                        "⚠️ This sounds like a medical emergency. Please call emergency services (911 or your local emergency number) immediately. Do not wait for online advice.",
+                        "🚨 EMERGENCY: Please call emergency services right away. This requires immediate medical attention.",
+                        "⚠️ URGENT: Contact emergency services now. This is not something to handle through a chat system."
+                    ]
+                },
+                symptoms: {
+                    patterns: ['what are the symptoms', 'symptoms of', 'signs of', 'how do i know if'],
+                    responses: [
+                        "To check specific symptoms, please use our Symptom Checker tool. Would you like me to open it for you?",
+                        "I can help you check symptoms using our dedicated Symptom Checker. Should I open it?",
+                        "For accurate symptom analysis, let's use our Symptom Checker tool. Would you like to try it?"
+                    ]
+                },
+                medications: {
+                    patterns: ['medicine', 'drug', 'medication', 'prescription', 'pill'],
+                    responses: [
+                        "For medication information, please use our Medication Lookup tool. Would you like me to open it?",
+                        "I can help you find medication details using our Medication Lookup. Should I open it?",
+                        "Let's check our Medication Database for that information. Would you like me to open the lookup tool?"
+                    ]
+                },
+                general_health: {
+                    patterns: ['healthy lifestyle', 'health tips', 'how to stay healthy', 'wellness'],
+                    responses: [
+                        "Here are some basic health tips:\n• Exercise regularly\n• Eat a balanced diet\n• Get enough sleep\n• Stay hydrated\n• Manage stress\n• Have regular check-ups",
+                        "Some key aspects of staying healthy:\n• Regular physical activity\n• Nutritious diet\n• Adequate sleep\n• Stress management\n• Regular medical check-ups",
+                        "Important health habits:\n• Daily exercise\n• Balanced nutrition\n• 7-9 hours sleep\n• Proper hydration\n• Mental wellness\n• Preventive care"
+                    ]
+                },
+                default: {
+                    responses: [
+                        "I'm not sure I understand. Could you rephrase that? Or would you like to try our Symptom Checker or Medication Lookup tools?",
+                        "I'm limited in my responses. Would you like to use our Symptom Checker or Medication Lookup tools instead?",
+                        "I may not have the specific information you're looking for. Please try our medical tools or consult a healthcare professional."
+                    ]
+                }
+            };
+
+            function findBestResponse(message) {
+                message = message.toLowerCase();
+                
+                // Check for emergency keywords first
+                if (chatbotResponses.emergency.patterns.some(pattern => message.includes(pattern))) {
+                    return getRandomResponse(chatbotResponses.emergency.responses);
+                }
+
+                // Check all other patterns
+                for (const category in chatbotResponses) {
+                    if (category !== 'default' && chatbotResponses[category].patterns) {
+                        if (chatbotResponses[category].patterns.some(pattern => message.includes(pattern))) {
+                            return getRandomResponse(chatbotResponses[category].responses);
+                        }
+                    }
+                }
+
+                // If no match found, return default response
+                return getRandomResponse(chatbotResponses.default.responses);
+            }
+
+            function getRandomResponse(responses) {
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
 
             function showTypingIndicator() {
                 const typingDiv = document.createElement('div');
@@ -257,25 +350,7 @@
                 chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
             }
 
-            async function getBotResponse(userMessage) {
-                try {
-                    const response = await fetch('http://localhost:5000/api/chat', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ message: userMessage })
-                    });
-                    
-                    const data = await response.json();
-                    return data.response || "I'm sorry, I couldn't process your request. Please try again.";
-                } catch (error) {
-                    console.error('Error:', error);
-                    return "I'm having trouble connecting to the server. Please try again later.";
-                }
-            }
-
-            sendMessage.addEventListener('click', async () => {
+            sendMessage.addEventListener('click', () => {
                 const message = userInput.value.trim();
                 if (message) {
                     addMessage(message, true);
@@ -283,14 +358,19 @@
                     
                     const typingDiv = showTypingIndicator();
                     
-                    try {
-                        const botResponse = await getBotResponse(message);
+                    // Simulate typing delay
+                    setTimeout(() => {
                         removeTypingIndicator(typingDiv);
-                        addMessage(botResponse);
-                    } catch (error) {
-                        removeTypingIndicator(typingDiv);
-                        addMessage("Sorry, I encountered an error. Please try again.");
-                    }
+                        const response = findBestResponse(message);
+                        addMessage(response);
+
+                        // If response mentions tools, show them
+                        if (response.includes('Symptom Checker')) {
+                            setTimeout(() => symptomModal.show(), 1000);
+                        } else if (response.includes('Medication Lookup')) {
+                            setTimeout(() => medicationModal.show(), 1000);
+                        }
+                    }, 1000);
                 }
             });
 
@@ -306,6 +386,24 @@
             const symptomModal = new bootstrap.Modal(document.getElementById('symptomModal'));
             const medicationModal = new bootstrap.Modal(document.getElementById('medicationModal'));
 
+            // Reset symptom checker when modal is closed
+            document.getElementById('symptomModal').addEventListener('hidden.bs.modal', function () {
+                document.getElementById('symptomInput').value = '';
+                document.getElementById('symptomResult').style.display = 'none';
+                document.getElementById('symptomResult').innerHTML = '';
+                document.getElementById('analyzeSymptoms').disabled = false;
+                document.getElementById('analyzeSymptoms').textContent = 'Analyze Symptoms';
+            });
+
+            // Reset medication lookup when modal is closed
+            document.getElementById('medicationModal').addEventListener('hidden.bs.modal', function () {
+                document.getElementById('medicationInput').value = '';
+                document.getElementById('medicationResult').style.display = 'none';
+                document.getElementById('medicationResult').innerHTML = '';
+                document.getElementById('lookupMedication').disabled = false;
+                document.getElementById('lookupMedication').textContent = 'Look Up Medication';
+            });
+
             symptomChecker.addEventListener('click', () => {
                 symptomModal.show();
             });
@@ -320,31 +418,79 @@
                 if (!symptoms) return;
                 
                 const analyzeBtn = document.getElementById('analyzeSymptoms');
+                const resultDiv = document.getElementById('symptomResult');
+                
                 analyzeBtn.disabled = true;
                 analyzeBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Analyzing...';
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = '<div class="alert alert-info">Analyzing symptoms...</div>';
                 
                 try {
-                    const response = await fetch('http://localhost:5000/api/symptom-check', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ symptoms: symptoms })
-                    });
-                    
-                    const data = await response.json();
-                    const resultDiv = document.getElementById('symptomResult');
-                    resultDiv.style.display = 'block';
+                    const userSymptoms = symptoms.split(',').map(s => s.trim().toLowerCase());
+                    const matchingDiseases = window.symptomDatabase
+                        .map(entry => {
+                            const matchCount = entry.symptoms.filter(symptom => 
+                                userSymptoms.some(userSymp => 
+                                    symptom.toLowerCase().includes(userSymp) || 
+                                    userSymp.includes(symptom.toLowerCase())
+                                )
+                            ).length;
+                            return { ...entry, matchCount };
+                        })
+                        .filter(entry => entry.matchCount > 0)
+                        .sort((a, b) => b.matchCount - a.matchCount)
+                        .slice(0, 3);
+
+                    if (matchingDiseases.length > 0) {
+                        const diseaseList = matchingDiseases
+                            .map((entry) => `
+                                <div class="disease-entry mb-3">
+                                    <h6 class="mb-2">${entry.disease}</h6>
+                                    <p class="mb-1"><strong>Matching Symptoms:</strong> ${entry.matchCount}</p>
+                                    <p class="mb-1"><strong>Description:</strong> ${entry.description}</p>
+                                    <p class="mb-1"><strong>Recommended Actions:</strong> ${entry.recommendations}</p>
+                                </div>
+                            `)
+                            .join('');
+                        
+                        resultDiv.innerHTML = `
+                            <div class="alert alert-info">
+                                <h5>Analysis Results</h5>
+                                <div class="disease-list">${diseaseList}</div>
+                                <hr>
+                                <div class="disclaimer">
+                                    <p class="text-danger"><strong>Important Disclaimer:</strong></p>
+                                    <ul>
+                                        <li>This is not a diagnosis</li>
+                                        <li>Results are based on general medical knowledge</li>
+                                        <li>Always consult a healthcare professional for proper evaluation</li>
+                                        <li>For medical emergencies, call emergency services immediately</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        resultDiv.innerHTML = `
+                            <div class="alert alert-warning">
+                                <h5>No Matching Conditions Found</h5>
+                                <p>We couldn't find any conditions matching your symptoms. This could be because:</p>
+                                <ul>
+                                    <li>The symptoms are too general</li>
+                                    <li>More specific information is needed</li>
+                                    <li>The condition is rare or not in our database</li>
+                                </ul>
+                                <p>Please consult a healthcare professional for proper evaluation.</p>
+                            </div>
+                        `;
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
                     resultDiv.innerHTML = `
-                        <div class="alert alert-info">
-                            <h5>Analysis Results</h5>
-                            <div>${data.analysis.replace(/\n/g, '<br>')}</div>
-                            <hr>
-                            <p class="text-danger"><strong>Remember:</strong> This is not a diagnosis. Please consult a healthcare professional for proper evaluation.</p>
+                        <div class="alert alert-danger">
+                            <h5>Error Analyzing Symptoms</h5>
+                            <p>We encountered an error while analyzing your symptoms. Please try again.</p>
                         </div>
                     `;
-                } catch (error) {
-                    alert('Error analyzing symptoms. Please try again.');
                 } finally {
                     analyzeBtn.disabled = false;
                     analyzeBtn.textContent = 'Analyze Symptoms';
@@ -352,36 +498,51 @@
             });
 
             // Medication Lookup
-            document.getElementById('lookupMedication').addEventListener('click', async () => {
+            document.getElementById('lookupMedication').addEventListener('click', () => {
                 const medication = document.getElementById('medicationInput').value.trim();
                 if (!medication) return;
                 
                 const lookupBtn = document.getElementById('lookupMedication');
+                const resultDiv = document.getElementById('medicationResult');
+                
                 lookupBtn.disabled = true;
                 lookupBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Searching...';
+                resultDiv.style.display = 'block';
                 
                 try {
-                    const response = await fetch('http://localhost:5000/api/medication-info', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ medication: medication })
-                    });
+                    const matchingMed = window.medicationDatabase.find(
+                        med => med.name.toLowerCase() === medication.toLowerCase()
+                    );
                     
-                    const data = await response.json();
-                    const resultDiv = document.getElementById('medicationResult');
-                    resultDiv.style.display = 'block';
+                    if (matchingMed) {
+                        resultDiv.innerHTML = `
+                            <div class="alert alert-info">
+                                <h5>${matchingMed.name}</h5>
+                                <p><strong>Description:</strong> ${matchingMed.description}</p>
+                                <p><strong>Dosage:</strong> ${matchingMed.dosage}</p>
+                                <p><strong>Side Effects:</strong> ${matchingMed.sideEffects}</p>
+                                ${matchingMed.warnings ? `<p><strong>Warnings:</strong> ${matchingMed.warnings}</p>` : ''}
+                                <hr>
+                                <p class="text-danger"><strong>Important:</strong> Always follow your doctor's prescription and instructions.</p>
+                            </div>
+                        `;
+                    } else {
+                        resultDiv.innerHTML = `
+                            <div class="alert alert-warning">
+                                <h5>Medication Not Found</h5>
+                                <p>We couldn't find information about "${medication}" in our database.</p>
+                                <p>Please check the spelling or consult your healthcare provider.</p>
+                            </div>
+                        `;
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
                     resultDiv.innerHTML = `
-                        <div class="alert alert-info">
-                            <h5>Medication Information</h5>
-                            <div>${data.information.replace(/\n/g, '<br>')}</div>
-                            <hr>
-                            <p class="text-danger"><strong>Important:</strong> Always follow your doctor's prescription and instructions.</p>
+                        <div class="alert alert-danger">
+                            <h5>Error Looking Up Medication</h5>
+                            <p>We encountered an error while looking up the medication. Please try again.</p>
                         </div>
                     `;
-                } catch (error) {
-                    alert('Error looking up medication. Please try again.');
                 } finally {
                     lookupBtn.disabled = false;
                     lookupBtn.textContent = 'Look Up Medication';
@@ -398,5 +559,6 @@
             });
         });
     </script>
+    <script src="databases.js"></script>
 </body>
 </html>

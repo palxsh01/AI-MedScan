@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedScan - Help</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #1a237e;
+            --secondary-color: #283593;
+            --accent-color: #3949ab;
+            --text-light: #ffffff;
+            --text-dark: #1a237e;
+            --background-light: #ffffff;
+            --background-dark: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--background-light);
+            margin: 0;
+            color: var(--text-dark);
+        }
+
+        .navbar {
+            background: var(--primary-color);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .navbar-brand {
+            color: var(--text-light);
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .navbar-brand:hover {
+            color: var(--background-light);
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            padding: 40px 20px;
+            max-width: 1200px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .help-content {
+            background: var(--background-light);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        .help-content p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--text-dark);
+        }
+
+        .help-card {
+            background: var(--background-light);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid var(--primary-color);
+            transition: transform 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .help-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .help-icon {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .search-box {
+            background: var(--background-light);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .search-input {
+            border-radius: 25px;
+            padding: 12px 20px;
+            border: 2px solid var(--primary-color);
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.2rem rgba(26, 35, 126, 0.25);
+            outline: none;
+        }
+
+        .category-tabs {
+            margin-bottom: 30px;
+        }
+
+        .category-tabs .nav-link {
+            color: var(--primary-color);
+            border-radius: 25px;
+            padding: 10px 20px;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary-color);
+        }
+
+        .category-tabs .nav-link.active {
+            background: var(--primary-color);
+            color: var(--text-light);
+        }
+
+        .category-tabs .nav-link:hover:not(.active) {
+            background: var(--background-dark);
+        }
+
+        .quick-help {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-color);
+            color: var(--text-light);
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .quick-help:hover {
+            transform: scale(1.1);
+            background: var(--secondary-color);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26, 35, 126, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#"><i class="fas fa-heartbeat me-2"></i>MedScan</a>
+    </nav>
+    <div class="container">
+        <h1><i class="fas fa-question-circle me-3"></i>Help & Support</h1>
+        
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="Search for help topics...">
+        </div>
+
+        <ul class="nav nav-pills category-tabs justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" href="#general">General</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#account">Account</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#technical">Technical</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#privacy">Privacy</a>
+            </li>
+        </ul>
+
+        <div class="help-content">
+            <div class="help-card">
+                <i class="fas fa-stethoscope help-icon"></i>
+                <h3>Using the Symptom Checker</h3>
+                <p>Our advanced AI-powered symptom checker helps you understand your health concerns:</p>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-check-circle text-success me-2"></i>Enter your symptoms in detail</li>
+                    <li><i class="fas fa-check-circle text-success me-2"></i>Answer follow-up questions</li>
+                    <li><i class="fas fa-check-circle text-success me-2"></i>Receive personalized health insights</li>
+                </ul>
+            </div>
+
+            <div class="help-card">
+                <i class="fas fa-user-md help-icon"></i>
+                <h3>Medical Information</h3>
+                <p>Can't find your symptoms? Our comprehensive medical database includes:</p>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-database text-primary me-2"></i>10,000+ documented symptoms</li>
+                    <li><i class="fas fa-book-medical text-primary me-2"></i>Detailed medical glossary</li>
+                    <li><i class="fas fa-sync text-primary me-2"></i>Regular updates from medical professionals</li>
+                </ul>
+            </div>
+
+            <div class="help-card">
+                <i class="fas fa-shield-alt help-icon"></i>
+                <h3>Accuracy & Privacy</h3>
+                <p>MedScan prioritizes your health and privacy:</p>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-lock text-warning me-2"></i>End-to-end encrypted data</li>
+                    <li><i class="fas fa-chart-bar text-warning me-2"></i>95%+ diagnostic accuracy</li>
+                    <li><i class="fas fa-user-shield text-warning me-2"></i>HIPAA compliant platform</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <p>Still need help? Our support team is available 24/7</p>
+            <a href="contact.html" class="btn btn-primary btn-lg rounded-pill">
+                <i class="fas fa-envelope me-2"></i>Contact Support
+            </a>
+        </div>
+    </div>
+
+    <div class="quick-help" data-bs-toggle="tooltip" title="Need immediate help?">
+        <i class="fas fa-headset fa-2x"></i>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+</body>
+</html>
